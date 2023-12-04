@@ -1,0 +1,18 @@
+env/*
+node_modules/
+
+# Ignore server-specific files and directories
+
+server/env/*
+server/node_modules/
+server/uploads/
+
+
+server/logs/ # Ignore the entire logs directory
+server/cache/ # Ignore the entire cache directory
+server/tmp/ # Ignore the entire tmp directory
+
+# Example using wildcards
+
+# server/*/tmp/ # Ignore tmp directories in all subfolders of server
+# server/build/* # Ignore all files within the build directory
