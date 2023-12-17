@@ -4,7 +4,7 @@ const csv = require("fast-csv");
 const fs = require("fs");
 const CryptoJS = require('crypto-js');
 const BASE_URL = process.env.BASE_URL
-const { encryptField, decryptField } = require('../utils/aesEncryptin');
+const { encryptField, decryptField, decryptFile } = require('../utils/aesEncryptin');
 
 // register user 
 exports.userpost = async (req, res) => {
@@ -13,8 +13,8 @@ exports.userpost = async (req, res) => {
     // Decrypt the received data
     const decryptedDataString = decryptField(encryptedFormData);
     const decryptedData = JSON.parse(decryptedDataString);
-
     const { fname, lname, email, mobile, gender, location, status } = decryptedData;
+    
     // validate collected values
     if (!fname || !lname || !email || !mobile || !gender || !location || !status || !file) {
         res.status(401).json("All Inputs is required")
@@ -52,6 +52,31 @@ exports.userpost = async (req, res) => {
     }
 };
 
+// register user test
+// exports.userpost = async (req, res) => {
+//     try {
+//         if (!req.decryptedData) {
+//             throw new Error('Decrypted data is missing');
+//         }
+
+//         // Log user details
+//         const { user, user_profile } = req.decryptedData;
+//         console.log('User Details:', user);
+//         console.log('User Profile:', user_profile);
+
+//         // Handle image upload using multer
+//         const profilePic = req.file.filename;
+//         console.log('Profile Pic:', profilePic);
+        // Log file details
+//         console.log('File Details:', req.file);
+
+//         // You can add additional logic here based on your requirements
+
+//         res.status(200).json({ message: 'Data logged successfully' });
+//     } catch (error) {
+//         console.error('Error in user registration:', error);
+//     }
+// }
 
 //all user get
 exports.allUsers = async (req, res) => {
