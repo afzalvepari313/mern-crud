@@ -91,8 +91,6 @@ const Register = () => {
       console.log("this is TESTING");
       console.log("this is TESTING");
       console.log("this is TESTING");
-      console.log("this is TESTING");
-      console.log("this is TESTING");
       const imageDataString = await readImageAsBase64(image);
       // console.log("this STRING Data of Image\n\n",imageDataString);
       const encryptedImageData = encryptField(imageDataString);
