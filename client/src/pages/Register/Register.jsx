@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom"
 import 'react-toastify/dist/ReactToastify.css';
 import "./register.css"
 import { addData } from '../../components/context/contex';
-import CryptoJS from 'crypto-js';
-import { encryptField ,decryptField } from "../../services/AesCrypto"
+import CryptoJS, { enc } from 'crypto-js';
+import { encryptField, decryptField, readImageAsBase64 } from "../../services/AesCrypto"
 
 const Register = () => {
 
@@ -22,13 +22,17 @@ const Register = () => {
     email: "",
     mobile: "",
     gender: "",
-    location: ""
+    location: "",
+    user_profile: ""
   });
 
   const [status, setStatus] = useState("Active");
   const [image, setImage] = useState("");
   const [preview, setPreview] = useState("");
   const [showspin, setShowSpin] = useState(true);
+
+  const [encryptedImage, setEncryptedImage] = useState();
+  const [decryptedImageURL, setDecryptedImageURL] = useState();
 
   const navigate = useNavigate();
 
@@ -84,7 +88,15 @@ const Register = () => {
       toast.error("location is Required !")
     } else {
       console.log(image);
-
+      console.log("this is TESTING");
+      console.log("this is TESTING");
+      console.log("this is TESTING");
+      console.log("this is TESTING");
+      console.log("this is TESTING");
+      const imageDataString = await readImageAsBase64(image);
+      // console.log("this STRING Data of Image\n\n",imageDataString);
+      const encryptedImageData = encryptField(imageDataString);
+      // console.log("this ENCRYPTED Image DATA\n\n",encryptedImageData);
       //whole form data encrypted instead of indivual fields
       const formData = {
         fname,
@@ -94,15 +106,15 @@ const Register = () => {
         gender,
         status,
         location,
-        
+        user_profile: encryptedImageData,
       };
       
       // Convert the entire form data to a JSON string
       const formDataString = JSON.stringify(formData);
-      
+
       // Encrypt the entire form data
       const encryptedFormData = encryptField(formDataString);
-  
+
       const data = new FormData();
       data.append('encryptedFormData', encryptedFormData);
       data.append('user_profile', image);
@@ -111,7 +123,7 @@ const Register = () => {
       }
 
       const response = await registerfunc(data, config);
-      
+
       if (response.status === 200) {
 
         // Get the encrypted user data from the server response and decrypt it
@@ -126,7 +138,7 @@ const Register = () => {
           email: "",
           mobile: "",
           gender: "",
-          location: ""
+          location: "",
         });
         setStatus("");
         setImage("");
