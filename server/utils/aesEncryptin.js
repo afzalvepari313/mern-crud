@@ -28,8 +28,14 @@ const decryptField = (encryptedValue) => {
     throw new Error('Decryption failed');
   }
 };
+// Function to decrypt file content
+const decryptFile = (encryptedBuffer) => {
+  const decryptedContent = CryptoJS.AES.decrypt(encryptedBuffer.toString(), 'your-file-encryption-key');
+  return Buffer.from(decryptedContent.toString(CryptoJS.enc.Utf8));
+};
 
 module.exports = {
   encryptField,
   decryptField,
+  decryptFile
 };
